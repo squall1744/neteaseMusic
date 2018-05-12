@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理页面</title>
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <aside>
+        <h1 id="newSong"></h1>
+        <div id="addSong">
+        </div>
+        <div id="container">
+          <div class="loading">
+            <div></div>
+          </div>
+          <div id="pickfiles">
+            <p>点击或拖拽文件</p>
+            <p>文件大小不要超过40MB</p>
+          </div>
+        </div>
+      </aside>
+      <div id="main">
+      </div>
+    </div>
+    <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
+    <script src="../node_modules/qiniu-js/dist/qiniu.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./js/admin/av.js"></script>
+    <script src="./js/admin/eventHub.js"></script>
+    <script src="./js/admin/newSong.js"></script>
+    <script src="./js/admin/addSong.js"></script>
+    <script src="./js/admin/EditNewSong.js"></script>
+    <script src="./js/admin/uploadSong.js"></script>
+    <script src="./js/admin/main.js"></script>
+  </body>
+</html>

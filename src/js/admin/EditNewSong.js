@@ -75,7 +75,11 @@
         })
         this.model.create(data).then(() => {
           this.view.render({})
+          window.eventHub.trigger('create', this.model.data)
         })
+      })
+      window.eventHub.on('select', data => {
+        this.view.render(data)
       })
     }
   }

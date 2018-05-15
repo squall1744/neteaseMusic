@@ -45,7 +45,7 @@
       
     },
     bindEvent() {
-      window.eventHub.on('upload', () => {
+      window.eventHub.on('new', () => {
         this.view.removeActive()
       })
       window.eventHub.on('create', data => {

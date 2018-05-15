@@ -64,7 +64,7 @@
               url: sourceLink,
               name: res.key
             }
-            window.eventHub.trigger('getLink', songData)
+            window.eventHub.trigger('new', songData)
           },
           'Error': function (up, err, errTip) {
             //上传出错时,处理相关的事情

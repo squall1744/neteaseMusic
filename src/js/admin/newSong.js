@@ -23,6 +23,10 @@
       window.eventHub.on('upload', () => {
         this.view.addActive()
       })
+      $(this.view.el).on('click', e => {
+        window.eventHub.trigger('select', this.model)
+
+      })
     }
   }
   controller.init(view, model)

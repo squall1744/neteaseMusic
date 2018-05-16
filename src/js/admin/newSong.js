@@ -10,7 +10,9 @@
     }
   }
 
-  let model = {}
+  let model = {
+    data: {}
+  }
 
   let controller = {
     init(view, model) {
@@ -20,11 +22,11 @@
       this.bindEvent()
     },
     bindEvent() {
-      window.eventHub.on('upload', () => {
+      window.eventHub.on('new', () => {
         this.view.addActive()
       })
       $(this.view.el).on('click', e => {
-        window.eventHub.trigger('select', this.model)
+        window.eventHub.trigger('new', this.model.data)
 
       })
     }

@@ -6,31 +6,37 @@
     </ul>
     `,
     render(data) {
-      let { songs } = data
+      let {songs, select} = data
       $(this.el).html(this.template)
-      let liList = songs.map( song => $('<li></li>').text(song.name).attr('song-id', song.id) )
+      let liList = songs.map(song => {
+        let $li = $('<li></li>').text(song.name).attr('song-id', song.id)
+        if(song.id === select) {
+          $li.addClass('active')
+        }
+        return $li
+      })
       $(this.el).find('ul').empty()
-      liList.map( domLi => {
-        $(this.el).find('ul').append(domLi)
-      } )
+      liList.map(li => {
+        $(this.el).find('ul').append(li)
+      })
     },
-    removeActive() {
+    clearActive(){
       $(this.el).find('.active').removeClass('active')
     }
   }
 
   let model = {
     data: {
-      songs: []
+      songs: [],
+      select: undefined
     },
     find() {
       let query = new AV.Query('Song')
-      return query.find().then( results => {
-        this.data.songs = results.map( song => {
+      return query.find().then(results => {
+        this.data.songs = results.map(song => {
           return {id: song.id, ...song.attributes}
-        } )
-      }, function (error) {
-      });
+        })
+      })
     }
   }
 
@@ -38,29 +44,42 @@
     init(view, model) {
       this.view = view
       this.model = model
-      this.bindEvent()
-      this.model.find().then(() => {
-        this.view.render(this.model.data)
-      })
-      
-    },
-    bindEvent() {
-      window.eventHub.on('new', () => {
-        this.view.removeActive()
-      })
+      this.bindEvents()
+      this.getAllSongs()
       window.eventHub.on('create', data => {
-        let json = JSON.stringify(data)
-        json = JSON.parse(json)
-        this.model.data.songs.push(json)
+        this.model.data.songs.push(data)
         this.view.render(this.model.data)
       })
-      $(this.view.el).on('click', 'li', e => {
-        let id = $(e.currentTarget).attr('song-id')
-        let data
-        for(let i=0; i < this.model.data.songs.length; i++) {
-          if(id === this.model.data.songs[i].id) {
-            data = this.model.data.songs[i]
+      window.eventHub.on('new', data => {
+        this.view.clearActive()
+      })
+      window.eventHub.on('update', song => {
+        let songs = this.model.data.songs
+        for(let i=0; i<songs.length; i++) {
+          if(songs[i].id === song.id) {
+            Object.assign(songs[i], song)
             break
+          }
+        }
+        this.view.render(this.model.data)
+      })
+    },
+    getAllSongs() {
+      return this.model.find().then(() => {
+        this.view.render(this.model.data)
+      })
+    },
+    bindEvents() {
+      $(this.view.el).on('click', 'li', e => {
+        let songId = e.currentTarget.getAttribute('song-id')
+        this.model.data.select = songId
+        this.view.render(this.model.data)
+
+        let data
+        let songs = this.model.data.songs
+        for(let i=0; i<songs.length; i++) {
+          if(songs[i].id === songId) {
+            data = songs[i]
           }
         }
         window.eventHub.trigger('select', JSON.parse(JSON.stringify(data)))

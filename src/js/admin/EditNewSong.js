@@ -90,9 +90,9 @@
         let needs = ['id', 'singer', 'name', 'url']
         let data = {}
         needs.map(key => {
-          data[key] = $(this.el).find(`[name="${key}"]`).val()
+          data[key] = $(this.view.el).find(`[name="${key}"]`).val()
         })
-        this.model.create(this.model.data).then(() => {
+        this.model.create(data).then(() => {
           window.eventHub.trigger('create', JSON.parse(JSON.stringify(this.model.data)))
           this.view.reset()
         })
@@ -101,16 +101,15 @@
         let needs = ['id', 'singer', 'name', 'url']
         let data = {}
         needs.map(key => {
-          data[key] = $(this.el).find(`[name="${key}"]`).val()
+          data[key] = $(this.view.el).find(`[name="${key}"]`).val()
         })
-        this.model.update(this.model.data).then(() => {
-          window.eventHub.trigger('create', JSON.parse(JSON.stringify(this.model.data)))
+        this.model.update(data).then(() => {
+          window.eventHub.trigger('update', JSON.parse(JSON.stringify(this.model.data)))
           this.view.reset()
         })
       },
       bindEvents() {
         $(this.view.el).on('click', 'button', e => {
-          console.log('click')
           if(this.model.data.id) {
             this.update()
           }else {

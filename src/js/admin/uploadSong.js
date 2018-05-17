@@ -3,7 +3,11 @@
     el: '#container',
   }
 
-  let model = {}
+  let model = {
+    data: {
+      status: 'open'
+    }
+  }
 
   let controller = {
     init(view, model, selector) {
@@ -38,17 +42,23 @@
           'BeforeUpload': function (up, file) {
             // 每个文件上传前,处理相关的事情
           },
-          'UploadProgress': function (up, file) {
+          'UploadProgress': (up, file) => {
             // 每个文件上传时,处理相关的事情
-            let loading = document.querySelector('.loading')
-            loading.classList.add("active")
+            if(this.model.data.status === 'open') {
+              window.x === 'close'
+              let loading = document.querySelector('.loading')
+              loading.classList.add("active")
+            }else {
+              return false
+            }
+            
+
           },
-          'FileUploaded': function (up, file, info) {
+          'FileUploaded': (up, file, info) => {
             // 每个文件上传成功后,处理相关的事情
+            this.model.data.status = 'open'
             let loading = document.querySelector('.loading')
             loading.classList.remove("active")
-
-            window.eventHub.trigger('upload')
             
             // 其中 info.response 是文件上传成功后，服务端返回的json，形式如
             // {

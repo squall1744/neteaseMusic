@@ -18,6 +18,8 @@
       this.view = view
       this.model = model
       this.bindEventHub()
+      this.loadPage1()
+      this.loadPage2()
     },
     bindEventHub() {
       window.eventHub.on('selectTab', page => {
@@ -27,6 +29,20 @@
           this.view.hide()
         }
       })
+    },
+    loadPage1() {
+      let script = document.createElement('script')
+      script.src = './js/index/page-1-1.js'
+      document.body.appendChild(script)
+      script.onload = function() {
+      }
+    },
+    loadPage2() {
+      let script = document.createElement('script')
+      script.src = './js/index/page-1-2.js'
+      document.body.appendChild(script)
+      script.onload = function() {
+      }
     }
   }
   controller.init(view, model)

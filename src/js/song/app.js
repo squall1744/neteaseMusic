@@ -43,19 +43,27 @@
     },
     showLyrics(time) {
       let $pList = $(this.el).find('.lyric .lines p')
+      let p
       for(let i=0; i<$pList.length; i++) {
         if(i === $pList.length-1) {
-          console.log($pList[i])
+          p = $pList[i]
           break
         }else {
           let currentTime = $pList.eq(i).attr('timeline')
           let nextTime = $pList.eq(i+1).attr('timeline')
           if(time >= currentTime && time <= nextTime) {
-            console.log($pList[i])
+            p = $pList[i]
             break
           }
         }
       }
+      let pHeight = p.getBoundingClientRect().top
+      let linesHeight = $(this.el).find('.lyric>.lines')[0].getBoundingClientRect().top
+      let height = pHeight - linesHeight
+      $(this.el).find('.lyric>.lines').css({
+        transform: `translateY(${- (height - 25)}px)`
+      })
+      $(p).addClass('active').siblings('.active').removeClass('active')
     }
   }
 

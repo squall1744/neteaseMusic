@@ -29,7 +29,8 @@
 	border: 1px solid white; height: 20vw; width: 20vw;
 	border-radius: 50%; background: rgba(0,0,0,0.5);
 }
-.disc-container .icon {width: 10vw; fill: white;}
+.disc-container .icon {width: 10vw; fill: #ddd; padding-left: 1vw;}
+.disc-container .icon.icon-pause {padding-left: 0;}
 .disc-container .pointer{width: 24vw; position: absolute; left: 45vw; }
 .disc-container .disc{display: flex; justify-content: center; align-items: center; margin-top: 18vw; }
 .disc-container .ring{width: 72vw; } 

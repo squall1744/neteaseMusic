@@ -12,14 +12,22 @@
       <input type="text" name="singer" id="singer" value="__singer__">
     </div>
     <div>
-      <label for="link">链接</label>
-      <input type="text" name="url" id="link" value="__url__">          
+      <label for="url">链接</label>
+      <input type="text" name="url" id="url" value="__url__">          
+    </div>
+    <div>
+      <label for="cover">封面</label>
+      <input type="text" name="cover" id="cover" value="__cover__">          
+    </div>
+    <div>
+      <label for="lyrics">歌词</label>
+      <input type="text" name="lyrics" id="lyrics" value="__lyrics__">          
     </div>
     <button>保存</button>
   </div>
     `,
       render(data = {}) {
-        let placeholder = ['id', 'name', 'singer', 'url']
+        let placeholder = ['id', 'name', 'singer', 'url', 'cover', 'lyrics']
         html = this.template
         placeholder.map(key => {
           html = html.replace(`__${key}__`, data[key] || '')
@@ -37,15 +45,15 @@
     }
 
     let model = {
-      data: {id:'', name:'', singer:'', url:'',},
+      data: {id:'', name:'', singer:'', url:'', cover:'', lyrics: ''},
       create(data) {
         let Song = AV.Object.extend('Song');
         let song = new Song()
-        song.set('name',data.name)
-        song.set('singer',data.singer)
+        song.set('name', data.name)
+        song.set('singer', data.singer)
         song.set('lyrics', data.lyrics)
-        song.set('url',data.url)
-        song.set('cover',data.cover)
+        song.set('url', data.url)
+        song.set('cover', data.cover)
         return song.save().then(newSong => {
           let {id, attributes} = newSong
           Object.assign(this.data, {id, ...attributes})
@@ -73,7 +81,7 @@
         window.eventHub.on('new', data => {
           if(this.model.data.id){
             this.model.data = {
-              name: '', url: '', id: '', singer: '', lyrics: ''
+              name: '', url: '', id: '', singer: '', lyrics: '', cover: ''
             }
           }else {
             Object.assign(this.model.data, data)
@@ -87,7 +95,7 @@
         this.bindEvents()
       },
       create() {
-        let needs = ['id', 'singer', 'name', 'url']
+        let needs = ['id', 'singer', 'name', 'url', 'cover', 'lyrics']
         let data = {}
         needs.map(key => {
           data[key] = $(this.view.el).find(`[name="${key}"]`).val()
@@ -98,7 +106,7 @@
         })
       },
       update() {
-        let needs = ['id', 'singer', 'name', 'url']
+        let needs = ['id', 'singer', 'name', 'url', 'cover', 'lyrics']
         let data = {}
         needs.map(key => {
           data[key] = $(this.view.el).find(`[name="${key}"]`).val()

@@ -21,7 +21,7 @@
     </div>
     <div>
       <label for="lyrics">歌词</label>
-      <input type="text" name="lyrics" id="lyrics" value="__lyrics__">          
+      <textarea name="lyrics" id="lyrics">__lyrics__</textarea>        
     </div>
     <button>保存</button>
   </div>
